@@ -7,9 +7,62 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="StoryForge">
+    Title="StoryForge - Chat">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-    </StackPanel>
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="StoryForge Chat" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,12"/>
+
+        <!-- Chat display area -->
+        <ScrollViewer Grid.Row="1" x:Name="ChatScrollViewer" VerticalScrollBarVisibility="Auto" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" BorderBrush="{ThemeResource TextControlBorderBrush}" BorderThickness="1" Margin="0,0,0,12">
+            <ListView x:Name="ChatMessagesList" SelectionMode="None" IsItemClickEnabled="False">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:ChatMessage">
+                        <Grid Margin="0,8,0,8" HorizontalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{x:Bind SenderName}" Grid.Row="0" FontWeight="SemiBold" 
+                                       Foreground="{x:Bind SenderColor}" Margin="0,0,0,4"/>
+
+                            <Border Grid.Row="1" Background="{x:Bind MessageBackground}" 
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+                                    BorderThickness="1" CornerRadius="8" Padding="12,8" 
+                                    HorizontalAlignment="{x:Bind MessageAlignment}">
+                                <TextBlock Text="{x:Bind MessageText}" TextWrapping="Wrap" />
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollViewer>
+
+        <!-- Message input area -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="MessageInputBox" Grid.Column="0" PlaceholderText="Type your message here..." 
+                     AcceptsReturn="True" TextWrapping="Wrap" MinHeight="40" MaxHeight="120"
+                     KeyDown="MessageInputBox_KeyDown"/>
+
+            <Button x:Name="SendButton" Grid.Column="1" Margin="8,0,0,0" 
+                    Click="SendButton_Click" VerticalAlignment="Bottom">
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE724;" Margin="0,0,8,0"/>
+                    <TextBlock Text="Send"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+    </Grid>
 </Window>
