@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "StoryForge (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "StoryForge (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
