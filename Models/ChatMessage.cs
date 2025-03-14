@@ -1,31 +1,21 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using System;
 
-namespace StoryForge
+namespace StoryForge.Models;
+
+public class ChatMessage(string sender, string message, bool isFromUser)
 {
-    public class ChatMessage
-    {
-        public string SenderName { get; set; } = string.Empty;
-        public string MessageText { get; set; } = string.Empty;
-        public DateTime Timestamp { get; set; } = DateTime.Now;
-        public bool IsFromUser { get; set; }
+    public string SenderName { get; set; } = sender;
+    public string MessageText { get; set; } = message;
+    public bool IsFromUser { get; set; } = isFromUser;
 
-        public HorizontalAlignment MessageAlignment => IsFromUser ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+    public HorizontalAlignment MessageAlignment => HorizontalAlignment.Left;
 
-        public SolidColorBrush SenderColor => IsFromUser
-            ? (SolidColorBrush)Application.Current.Resources["SystemAccentColor"]
-            : new SolidColorBrush(Microsoft.UI.Colors.Gray);
+    public SolidColorBrush SenderColor => IsFromUser
+        ? new SolidColorBrush(Microsoft.UI.Colors.Blue)
+        : new SolidColorBrush(Microsoft.UI.Colors.Gray);
 
-        public SolidColorBrush MessageBackground => IsFromUser
-            ? new SolidColorBrush(Microsoft.UI.Colors.LightBlue)
-            : new SolidColorBrush(Microsoft.UI.Colors.LightGray);
-
-        public ChatMessage(string sender, string message, bool isFromUser)
-        {
-            SenderName = sender;
-            MessageText = message;
-            IsFromUser = isFromUser;
-        }
-    }
+    public SolidColorBrush MessageBackground => IsFromUser
+        ? new SolidColorBrush(Microsoft.UI.Colors.LightBlue)
+        : new SolidColorBrush(Microsoft.UI.Colors.LightGray);
 }
