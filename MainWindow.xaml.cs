@@ -1,3 +1,4 @@
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using StoryForge.Models;
@@ -8,7 +9,7 @@ using StoryForge.Services;
 
 namespace StoryForge
 {
-    public sealed partial class MainWindow : Window
+    public sealed partial class MainWindow
     {
         private readonly ObservableCollection<ChatMessage> _chatMessages = [];
         private readonly LlmService _llmService;
@@ -16,6 +17,10 @@ namespace StoryForge
         public MainWindow()
         {
             InitializeComponent();
+
+            ExtendsContentIntoTitleBar = true;
+            SetTitleBar(AppTitleBar);
+            AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
 
             _llmService = new LlmService();
             ChatMessagesList.ItemsSource = _chatMessages;
