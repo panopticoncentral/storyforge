@@ -1,18 +1,21 @@
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Input;
-using StoryForge.Models;
+using Microsoft.UI.Xaml.Controls;
+using StoryForge.Pages;
 using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using StoryForge.Services;
 
 namespace StoryForge
 {
     public sealed partial class MainWindow
     {
-        private readonly ObservableCollection<ChatMessage> _chatMessages = [];
-        private readonly LlmService _llmService;
+        // Static reference to the current MainWindow instance
+        public static MainWindow? CurrentWindow { get; private set; }
+        // Type cache for faster page navigation
+        private readonly Type _chatPageType = typeof(ChatPage);
+        private readonly Type _settingsPageType = typeof(SettingsPage);
+
+        // Track the previous page before settings
+        private Type _previousPageType;
 
         public MainWindow()
         {
@@ -22,70 +25,81 @@ namespace StoryForge
             SetTitleBar(AppTitleBar);
             AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
 
-            _llmService = new LlmService();
-            ChatMessagesList.ItemsSource = _chatMessages;
+            // Set the static reference to this window
+            CurrentWindow = this;
 
-            _chatMessages.Add(new ChatMessage("StoryForge", "Hello! I'm your AI assistant. How can I help you today?", false));
+            // Navigate to chat page by default
+            _previousPageType = _chatPageType;
+            ContentFrame.Navigate(_chatPageType);
         }
 
-        private async void SendButton_Click(object sender, RoutedEventArgs e)
+        private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            try
+            // Save the current page type before navigating to settings
+            if (args.IsSettingsSelected && ContentFrame.CurrentSourcePageType != _settingsPageType)
             {
-                await SendMessage();
-            }
-            catch (Exception)
-            {
-                // Ignore it
-            }
-        }
-
-        private async void MessageInputBox_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            try
-            {
-                if (e is { Key: Windows.System.VirtualKey.Enter, KeyStatus: { IsMenuKeyDown: false, IsExtendedKey: false } })
-                {
-                    e.Handled = true;
-                    await SendMessage();
-                }
-            }
-            catch (Exception)
-            {
-                // Ignore it
-            }
-
-        }
-
-        private async Task SendMessage()
-        {
-            var userMessage = MessageInputBox.Text.Trim();
-
-            if (string.IsNullOrWhiteSpace(userMessage))
+                _previousPageType = ContentFrame.CurrentSourcePageType;
+                UpdateHeaderText("settings");
+                ContentFrame.Navigate(_settingsPageType);
                 return;
-
-            _chatMessages.Add(new ChatMessage("You", userMessage, true));
-
-            MessageInputBox.Text = string.Empty;
-            ChatScrollViewer.ChangeView(null, double.MaxValue, null);
-
-            var thinkingMessage = new ChatMessage("StoryForge", "Thinking...", false);
-            _chatMessages.Add(thinkingMessage);
-
-            try
-            {
-                var response = await _llmService.GetResponseAsync(userMessage);
-
-                _chatMessages.Remove(thinkingMessage);
-                _chatMessages.Add(new ChatMessage("StoryForge", response, false));
-            }
-            catch (Exception ex)
-            {
-                _chatMessages.Remove(thinkingMessage);
-                _chatMessages.Add(new ChatMessage("System", $"Error: {ex.Message}", false));
             }
 
-            ChatScrollViewer.ChangeView(null, double.MaxValue, null);
+            if (args.SelectedItemContainer != null && args.SelectedItemContainer.Tag is string navItemTag)
+            {
+                UpdateHeaderText(navItemTag);
+                NavigateToPage(navItemTag);
+            }
+        }
+
+        private void UpdateHeaderText(string navItemTag)
+        {
+            HeaderText.Text = navItemTag switch
+            {
+                "chat" => "Chat",
+                "projects" => "Projects",
+                "characters" => "Characters",
+                "settings" => "Settings",
+                _ => "Chat"
+            };
+        }
+
+        private void NavigateToPage(string navItemTag)
+        {
+            Type? pageType = navItemTag switch
+            {
+                "chat" => _chatPageType,
+                _ => null
+            };
+
+            if (pageType != null)
+            {
+                ContentFrame.Navigate(pageType);
+            }
+        }
+
+        /// <summary>
+        /// Navigate back to the previous page from settings
+        /// </summary>
+        public void NavigateBackFromSettings()
+        {
+            // Find the appropriate NavView item based on previous page type
+            NavigationViewItem? navItem = null;
+
+            if (_previousPageType == _chatPageType)
+            {
+                navItem = ChatNavItem;
+            }
+
+            // If we found a matching item, select it
+            if (navItem != null)
+            {
+                NavView.SelectedItem = navItem;
+            }
+            else
+            {
+                // Default to chat page if we can't determine the previous page
+                NavView.SelectedItem = ChatNavItem;
+            }
         }
     }
 }

@@ -39,80 +39,34 @@
                        VerticalAlignment="Center"/>
         </Grid>
 
-        <Grid Grid.Row="1" Margin="12">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <!-- NavigationView -->
+        <NavigationView x:Name="NavView" 
+                        Grid.Row="1"
+                        IsSettingsVisible="True"
+                        IsBackButtonVisible="Collapsed"
+                        SelectionChanged="NavView_SelectionChanged"
+                        PaneDisplayMode="Left">
 
-            <ScrollViewer Grid.Row="1" 
-                      x:Name="ChatScrollViewer" 
-                      VerticalScrollBarVisibility="Auto" 
-                      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
-                      BorderBrush="{ThemeResource TextControlBorderBrush}" 
-                      BorderThickness="1" 
-                      Margin="0,0,0,12">
-                <ListView x:Name="ChatMessagesList" 
-                      SelectionMode="None" 
-                      IsItemClickEnabled="False">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="models:ChatMessage">
-                            <Grid Margin="0,8,0,8" 
-                              HorizontalAlignment="Stretch">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+            <!-- NavigationView Items -->
+            <NavigationView.MenuItems>
+                <NavigationViewItem x:Name="ChatNavItem" 
+                                    Content="Chat" 
+                                    Tag="chat"
+                                    Icon="Message" 
+                                    IsSelected="True"/>
+            </NavigationView.MenuItems>
 
-                                <TextBlock Text="{x:Bind SenderName}" 
-                                       Grid.Row="0" 
-                                       FontWeight="SemiBold" 
-                                       Foreground="{x:Bind SenderColor}" 
-                                       Margin="0,0,0,4"/>
+            <!-- Header -->
+            <NavigationView.Header>
+                <TextBlock x:Name="HeaderText" 
+                          Text="Chat" 
+                          Style="{StaticResource TitleTextBlockStyle}" 
+                          Margin="12"/>
+            </NavigationView.Header>
 
-                                <Border Grid.Row="1"
-                                    Background="{x:Bind MessageBackground}" 
-                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
-                                    BorderThickness="1" 
-                                    CornerRadius="8" 
-                                    Padding="12,8" 
-                                    HorizontalAlignment="{x:Bind MessageAlignment}">
-                                    <TextBlock Text="{x:Bind MessageText}" 
-                                           TextWrapping="Wrap" />
-                                </Border>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </ScrollViewer>
+            <!-- Content -->
+            <Frame x:Name="ContentFrame"/>
 
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBox x:Name="MessageInputBox" 
-                     Grid.Column="0" 
-                     PlaceholderText="Type your message here..." 
-                     AcceptsReturn="True" 
-                     TextWrapping="Wrap" 
-                     MinHeight="40" 
-                     MaxHeight="120"
-                     KeyDown="MessageInputBox_KeyDown"/>
-
-                <Button Grid.Column="1" 
-                    Margin="8,0,0,0" 
-                    Click="SendButton_Click" 
-                    VerticalAlignment="Bottom">
-                    <StackPanel Orientation="Horizontal">
-                        <FontIcon FontFamily="Segoe Fluent Icons" 
-                              Glyph="&#xE724;" 
-                              Margin="0,0,8,0"/>
-                        <TextBlock Text="Send"/>
-                    </StackPanel>
-                </Button>
-            </Grid>
-        </Grid>
+        </NavigationView>
     </Grid>
 </Window>
