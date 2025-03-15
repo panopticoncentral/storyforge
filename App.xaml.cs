@@ -5,7 +5,7 @@ namespace StoryForge
     public partial class App
     {
         private Window? _window;
-     
+
         public App()
         {
             InitializeComponent();

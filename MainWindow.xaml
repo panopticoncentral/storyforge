@@ -3,8 +3,6 @@
     x:Class="StoryForge.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:StoryForge"
-    xmlns:models="using:StoryForge.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -16,7 +14,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Custom Title Bar -->
         <Grid x:Name="AppTitleBar" 
               Height="48" 
               Grid.Row="0"
@@ -39,34 +36,26 @@
                        VerticalAlignment="Center"/>
         </Grid>
 
-        <!-- NavigationView -->
-        <NavigationView x:Name="NavView" 
-                        Grid.Row="1"
+        <NavigationView Grid.Row="1"
                         IsSettingsVisible="True"
-                        IsBackButtonVisible="Collapsed"
+                        IsPaneOpen="False"
                         SelectionChanged="NavView_SelectionChanged"
-                        PaneDisplayMode="Left">
+                        PaneDisplayMode="LeftCompact">
 
-            <!-- NavigationView Items -->
             <NavigationView.MenuItems>
-                <NavigationViewItem x:Name="ChatNavItem" 
-                                    Content="Chat" 
-                                    Tag="chat"
+                <NavigationViewItem Content="Chat" 
+                                    Tag="Chat"
                                     Icon="Message" 
                                     IsSelected="True"/>
             </NavigationView.MenuItems>
 
-            <!-- Header -->
             <NavigationView.Header>
                 <TextBlock x:Name="HeaderText" 
-                          Text="Chat" 
                           Style="{StaticResource TitleTextBlockStyle}" 
                           Margin="12"/>
             </NavigationView.Header>
 
-            <!-- Content -->
             <Frame x:Name="ContentFrame"/>
-
         </NavigationView>
     </Grid>
 </Window>
