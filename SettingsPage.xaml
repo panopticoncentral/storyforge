@@ -5,77 +5,101 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
 
     <ScrollViewer Padding="16">
-        <StackPanel Spacing="16"
-                    MaxWidth="800">
-            <StackPanel>
-                <TextBlock Text="AI Model Settings"
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" 
+                      Orientation="Horizontal" 
+                      HorizontalAlignment="Left" 
+                      Margin="0,0,0,20">
+                <FontIcon Glyph="&#xE713;" 
+                        FontFamily="Segoe Fluent Icons" 
+                        FontSize="18"
+                        VerticalAlignment="Center"
+                        Margin="0,0,12,0"/>
+                <TextBlock Text="Settings" 
+                         Style="{ThemeResource SubtitleTextBlockStyle}" 
+                         FontSize="24"
+                         VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1"
+                    Spacing="16"
+                    MaxWidth="800"
+                    HorizontalAlignment="Stretch"
+                    Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="AI Model Settings"
                            Style="{StaticResource SubtitleTextBlockStyle}" 
                            Margin="0,0,0,8"/>
-                <StackPanel BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+                    <StackPanel BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
                             BorderThickness="1"
                             CornerRadius="8"
                             Padding="16"
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                    <TextBox Header="API Endpoint"
+                        <TextBox Header="API Endpoint"
                              PlaceholderText="https://api.example.com/v1/chat" 
                              Text="{x:Bind ApiEndpoint, Mode=TwoWay}" 
                              Margin="0,0,0,8"/>
-                    <PasswordBox Header="API Key" 
+                        <PasswordBox Header="API Key" 
                                  PlaceholderText="Enter your API key" 
                                  Password="{x:Bind ApiKey, Mode=TwoWay}" 
                                  Margin="0,0,0,8"/>
-                    <ComboBox Header="Model" 
+                        <ComboBox Header="Model" 
                               SelectedIndex="{x:Bind SelectedModelIndex, Mode=TwoWay}" 
                               Width="250"
                               HorizontalAlignment="Left">
-                        <ComboBoxItem Content="gpt-4"/>
-                        <ComboBoxItem Content="gpt-3.5-turbo"/>
-                        <ComboBoxItem Content="claude-3-opus"/>
-                        <ComboBoxItem Content="claude-3-sonnet"/>
-                        <ComboBoxItem Content="llama3"/>
-                    </ComboBox>
+                            <ComboBoxItem Content="gpt-4"/>
+                            <ComboBoxItem Content="gpt-3.5-turbo"/>
+                            <ComboBoxItem Content="claude-3-opus"/>
+                            <ComboBoxItem Content="claude-3-sonnet"/>
+                            <ComboBoxItem Content="llama3"/>
+                        </ComboBox>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
 
-            <StackPanel>
-                <TextBlock Text="Chat Settings" 
+                <StackPanel>
+                    <TextBlock Text="Chat Settings" 
                            Style="{StaticResource SubtitleTextBlockStyle}" 
                            Margin="0,0,0,8"/>
-                <StackPanel BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+                    <StackPanel BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
                             BorderThickness="1"
                             CornerRadius="8" 
                             Padding="16"
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                    <CheckBox Content="Auto-scroll to new messages" IsChecked="{x:Bind AutoScrollToNewMessages, Mode=TwoWay}" Margin="0,0,0,8"/>
-                    <CheckBox Content="Show thinking indicator" IsChecked="{x:Bind ShowThinkingIndicator, Mode=TwoWay}"/>
+                        <CheckBox Content="Auto-scroll to new messages" IsChecked="{x:Bind AutoScrollToNewMessages, Mode=TwoWay}" Margin="0,0,0,8"/>
+                        <CheckBox Content="Show thinking indicator" IsChecked="{x:Bind ShowThinkingIndicator, Mode=TwoWay}"/>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
 
-            <StackPanel>
-                <TextBlock Text="About" 
+                <StackPanel>
+                    <TextBlock Text="About" 
                            Style="{StaticResource SubtitleTextBlockStyle}" 
                            Margin="0,0,0,8"/>
-                <StackPanel BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+                    <StackPanel BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
                             BorderThickness="1" 
                             CornerRadius="8"
                             Padding="16" 
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                    <TextBlock Text="StoryForge" 
+                        <TextBlock Text="StoryForge" 
                                Style="{StaticResource TitleTextBlockStyle}"/>
-                    <TextBlock Text="Version 1.0.0" 
+                        <TextBlock Text="Version 1.0.0" 
                                Style="{StaticResource BodyTextBlockStyle}" 
                                Margin="0,4,0,0"/>
-                    <TextBlock Text="© 2025 StoryForge Team"
+                        <TextBlock Text="© 2025 StoryForge Team"
                                Style="{StaticResource CaptionTextBlockStyle}" 
                                Margin="0,8,0,0"/>
-                    <HyperlinkButton Content="View License"
+                        <HyperlinkButton Content="View License"
                                      Margin="0,8,0,0"/>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </Grid>
     </ScrollViewer>
 </Page>

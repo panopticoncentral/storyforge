@@ -6,8 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:StoryForge.Models"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
 
     <Grid Margin="12">
         <Grid.RowDefinitions>
@@ -18,7 +17,6 @@
         <ScrollViewer Grid.Row="0" 
                   x:Name="ChatScrollViewer" 
                   VerticalScrollBarVisibility="Auto" 
-                  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
                   BorderBrush="{ThemeResource TextControlBorderBrush}" 
                   BorderThickness="1" 
                   Margin="0,0,0,12">

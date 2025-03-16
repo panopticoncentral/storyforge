@@ -27,7 +27,6 @@ namespace StoryForge
         private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             if (args.SelectedItemContainer == null || args.SelectedItemContainer.Tag is not string navItemTag) return;
-            HeaderText.Text = navItemTag;
             NavigateToPage(navItemTag);
         }
 

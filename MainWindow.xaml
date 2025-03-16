@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="StoryForge - Chat">
+    Title="StoryForge">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -39,8 +39,10 @@
         <NavigationView Grid.Row="1"
                         IsSettingsVisible="True"
                         IsPaneOpen="False"
+                        IsBackButtonVisible="Collapsed"
                         SelectionChanged="NavView_SelectionChanged"
-                        PaneDisplayMode="LeftCompact">
+                        PaneDisplayMode="LeftCompact"
+                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Chat" 
@@ -48,12 +50,6 @@
                                     Icon="Message" 
                                     IsSelected="True"/>
             </NavigationView.MenuItems>
-
-            <NavigationView.Header>
-                <TextBlock x:Name="HeaderText" 
-                          Style="{StaticResource TitleTextBlockStyle}" 
-                          Margin="12"/>
-            </NavigationView.Header>
 
             <Frame x:Name="ContentFrame"/>
         </NavigationView>

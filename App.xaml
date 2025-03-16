@@ -8,6 +8,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
             </ResourceDictionary.MergedDictionaries>
+
+            <StaticResource x:Key="NavigationViewDefaultPaneBackground" 
+                            ResourceKey="ApplicationPageBackgroundThemeBrush"/>
+            <StaticResource x:Key="NavigationViewExpandedPaneBackground" 
+                            ResourceKey="ApplicationPageBackgroundThemeBrush"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
