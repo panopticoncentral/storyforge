@@ -34,6 +34,11 @@
                     MaxWidth="800"
                     HorizontalAlignment="Stretch"
                     Margin="0,0,0,20">
+
+                <InfoBar x:Name="SettingsInfoBar"
+                         IsOpen="False"
+                         IsClosable="True"/>
+
                 <StackPanel>
                     <TextBlock Text="AI Model Settings"
                            Style="{StaticResource SubtitleTextBlockStyle}" 
@@ -61,6 +66,10 @@
                             <ComboBoxItem Content="claude-3-sonnet"/>
                             <ComboBoxItem Content="llama3"/>
                         </ComboBox>
+
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button x:Name="TestConnectionButton" Content="Test Connection"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
 

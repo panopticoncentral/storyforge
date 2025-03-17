@@ -13,11 +13,13 @@ public sealed partial class ChatPage
 {
     private readonly ObservableCollection<ChatMessage> _chatMessages = [];
     private readonly LlmService _llmService;
+    private readonly SettingsService _settingsService;
 
     public ChatPage()
     {
         InitializeComponent();
 
+        _settingsService = SettingsService.Instance;
         _llmService = new LlmService();
         ChatMessagesList.ItemsSource = _chatMessages;
 
@@ -66,20 +68,18 @@ public sealed partial class ChatPage
 
         MessageInputBox.Text = string.Empty;
 
-        var autoScroll = true; /*!(_localSettings.Values.TryGetValue("AutoScrollToNewMessages", out var autoScrollObj) &&
-            autoScrollObj is bool autoScrollValue && !autoScrollValue);*/
-                
+        var autoScroll = _settingsService.GetAutoScrollToNewMessages();
+
         if (autoScroll)
         {
             ChatScrollViewer.ChangeView(null, double.MaxValue, null);
         }
 
         // Show thinking indicator based on setting
-        var showThinking = true; /* !(_localSettings.Values.TryGetValue("ShowThinkingIndicator", out var showThinkingObj) &&
-            showThinkingObj is bool showThinkingValue && !showThinkingValue); */
-                
+        var showThinking = _settingsService.GetShowThinkingIndicator();
+
         ChatMessage? thinkingMessage = null;
-            
+
         if (showThinking)
         {
             thinkingMessage = new ChatMessage("StoryForge", "Thinking...", false);
@@ -94,7 +94,7 @@ public sealed partial class ChatPage
             {
                 _chatMessages.Remove(thinkingMessage);
             }
-                
+
             _chatMessages.Add(new ChatMessage("StoryForge", response, false));
         }
         catch (Exception ex)
@@ -103,7 +103,7 @@ public sealed partial class ChatPage
             {
                 _chatMessages.Remove(thinkingMessage);
             }
-                
+
             _chatMessages.Add(new ChatMessage("System", $"Error: {ex.Message}", false));
         }
 
